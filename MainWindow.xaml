@@ -62,7 +62,9 @@
                 <RowDefinition MaxHeight="66"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <materialDesign:DialogHost x:Name="dig_ifCreatStream" Grid.RowSpan="3" DialogClosing="DialogHost_DialogClosing" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <materialDesign:DialogHost x:Name="dig_ifCreatStream" Grid.RowSpan="3" DialogClosing="DialogHost_DialogClosing" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       >
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
                         <TextBlock VerticalAlignment="Center">当前无播放流</TextBlock>
@@ -76,6 +78,37 @@
                                     <system:Boolean>True</system:Boolean>
                                 </Button.CommandParameter>
                                 添加流
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand"
+                                    Foreground="#FF2687FB">
+                                <Button.CommandParameter>
+                                    <system:Boolean>False</system:Boolean>
+                                </Button.CommandParameter>
+                                取消
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
+            <materialDesign:DialogHost x:Name="dig_Commander" Grid.RowSpan="3" DialogClosing="dig_Commander_DialogClosing" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <materialDesign:DialogHost.DialogContent>
+                    <StackPanel Margin="16">
+                        <TextBlock VerticalAlignment="Center">命令行</TextBlock>
+                        <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="TextBoxInputCommand" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                            
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" 
+                                    Foreground="#FF2687FB">
+                                <Button.CommandParameter>
+                                    <system:Boolean>True</system:Boolean>
+                                </Button.CommandParameter>
+                                确定
                             </Button>
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsCancel="True"
@@ -115,6 +148,7 @@
                     <MenuItem x:Name="MenuItem_OpenSettingsView" Header="首选项" Click="MenuItem_OpenSettingsView_Click"/>
                 </MenuItem>
                 <MenuItem Header="视图" Height="Auto">
+                    <MenuItem x:Name="MenuItem_Commander" Header="命令行" Click="MenuItem_Commander_Click"/>
                     <MenuItem Header="格式转换"/>
                     <MenuItem Header="定时停止播放"/>
                     <MenuItem Header="定时关机"/>

@@ -596,6 +596,41 @@ namespace FramelessWPF
 
         }
 
+        private void MenuItem_Commander_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            dig_Commander.IsOpen = true;
+        }
+
+        private void dig_Commander_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            if (!Equals(eventArgs.Parameter, true)) return;
+
+            if (!string.IsNullOrWhiteSpace(TextBoxInputCommand.Text))
+            {
+                Console.WriteLine(TextBoxInputCommand.Text);               
+                string result = string.Empty;
+                string removeblank = TextBoxInputCommand.Text.Trim().ToLower();
+                string[] split = removeblank.Split(new char[2] { '(', ')' });
+                switch (split[0])
+                {
+                    case "play":
+                        BtnPlay_Click(null, null);
+                        break;
+                    case "pause":
+                        break;
+                    case "stop":
+                        break;
+                    case "openaboutview":
+                        MenuItem_About_Click(null, null);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+                
+        }
+
         /*
 private Visuals _vis = new Visuals(); // visuals class instance
 private int specIdx = 15;

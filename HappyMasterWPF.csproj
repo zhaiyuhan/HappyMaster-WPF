@@ -115,7 +115,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Foundation\GetLyricAndLyricTime.cs" />
-    <Compile Include="Foundation\HandleCommand.cs" />
     <Compile Include="Foundation\LyricShow.cs" />
     <Compile Include="View\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
