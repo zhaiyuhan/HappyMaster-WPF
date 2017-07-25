@@ -159,15 +159,15 @@ namespace FramelessWPF
             }          
         }
 
-        void Play()
+        void Play(String m_filename)
         {
             switch (Bass.BASS_ChannelIsActive(_stream))
             {
                 case BASSActive.BASS_ACTIVE_STOPPED:
                     Bass.BASS_StreamFree(_stream);
-                    if (!string.IsNullOrEmpty(_filename))
+                    if (!string.IsNullOrEmpty(m_filename))
                     {
-                        _fs = System.IO.File.OpenRead(_filename);
+                        _fs = System.IO.File.OpenRead(m_filename);
                         _stream = Bass.BASS_StreamCreateFileUser(BASSStreamSystem.STREAMFILE_NOBUFFER, BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN | BASSFlag.BASS_STREAM_AUTOFREE, _myStreamCreateUser, IntPtr.Zero);
                         if (_stream != 0)
                         {
@@ -189,13 +189,104 @@ namespace FramelessWPF
                     break;
             }
         }
+        
+        private void GetTagInformation(String m_filename)
+        {
+            //get information
+            TagLib.Tag tag = TagLib.File.Create(m_filename).Tag;
+            if (tag.Pictures.Length > 0)
+            {
+                using (MemoryStream albumArtworkMemStream = new MemoryStream(tag.Pictures[0].Data.Data))
+                {
+                    try
+                    {
+                        BitmapImage albumImage = new BitmapImage();
+                        albumImage.BeginInit();
+                        albumImage.CacheOption = BitmapCacheOption.OnLoad;
+                        albumImage.StreamSource = albumArtworkMemStream;
+                        albumImage.DecodePixelHeight = 50;
+                        albumImage.DecodePixelWidth = 50;
+                        albumImage.EndInit();
+                        ImageAlbumArt.Source = albumImage.Clone();
+                        using (MemoryStream albumArtworkMemStream2 = new MemoryStream(tag.Pictures[0].Data.Data))
+                        {
+                            BitmapImage albumImage2 = new BitmapImage();
+                            albumImage2.BeginInit();
+                            albumImage2.CacheOption = BitmapCacheOption.OnLoad;
+                            albumImage2.StreamSource = albumArtworkMemStream2;
+                            albumImage2.DecodePixelHeight = 200;
+                            albumImage2.DecodePixelWidth = 200;
+                            albumImage2.EndInit();
+                            ImageAlbumArtBig.Source = albumImage2;
+                            albumArtworkMemStream2.Close();
+                        }
+                    }
+                    catch (NotSupportedException)
+                    {
+                        ImageAlbumArt.Source = null;
+                    }
+                    albumArtworkMemStream.Close();
+                }
+            }
+            else
+            {
+                ImageAlbumArt.Source = null;
+            }
+
+            string blankspace = "    ";
+            TAG_INFO info = new TAG_INFO(m_filename);
+            if (BassTags.BASS_TAG_GetFromFile(_stream, info))
+            {
+                LabelTitle.Content = info.title;
+                LabelTitleForCard.Text = info.title;
+                LabelAlbumForCard.Text = info.album;
+                System.Text.StringBuilder albumtext = new System.Text.StringBuilder();
+                albumtext.Append(info.artist);
+                albumtext.Append(" ");
+                albumtext.Append(info.year);
+                LabelArtistForCard.Text = albumtext.ToString();
+                albumtext.Remove(0, albumtext.Length);
+                albumtext.Append("   比特率");
+                albumtext.Append(blankspace);
+                albumtext.Append(info.bitrate);
+                albumtext.Append("kbps");
+                ListViewItemBit.Content = albumtext;
+                System.Text.StringBuilder n_rating = new System.Text.StringBuilder();
+                n_rating.Append("   采样率");
+                n_rating.Append(blankspace);
+                n_rating.Append("44.100");
+                ListViewItemRate.Content = n_rating;
+                FileInfo _fileinfo = new FileInfo(info.filename);
+                System.Text.StringBuilder n_writetime = new System.Text.StringBuilder();
+                n_writetime.Append("修改时间");
+                n_writetime.Append(blankspace);
+                n_writetime.Append(_fileinfo.CreationTime);
+                ListViewItemWriteTime.Content = n_writetime;
+                System.Text.StringBuilder n_addtime = new System.Text.StringBuilder();
+                n_addtime.Append("添加时间");
+                n_addtime.Append(blankspace);
+                n_addtime.Append(_fileinfo.LastWriteTime);
+                ListViewItemAddTime.Content = n_addtime;
+                System.Text.StringBuilder n_filesize = new System.Text.StringBuilder();
+                string _filesize = _fileinfo.Length / 1024 / 1024 + "." + Math.Round((double)(_fileinfo.Length / 1024 % 1024 / 10), 2) + "MB";
+                n_filesize.Append("文件大小");
+                n_filesize.Append(blankspace);
+                n_filesize.Append(_filesize);
+                ListViewItemFileSize.Content = n_filesize;
+                System.Text.StringBuilder n_filepath = new System.Text.StringBuilder();
+                n_filepath.Append("文件位置");
+                n_filepath.Append(blankspace);
+                n_filepath.Append(_fileinfo.DirectoryName);
+                ListViewItemFilePath.Content = n_filepath;
+            }
+        }
         private void MenuItem_OpenFile_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             OpenFileDialog _openfile = new OpenFileDialog()
             {
                 //dialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 Title = "打开音频文件",
-                Filter = "音乐文件(.mp3)|*.mp3|所有文件 (*.*)|*.*",
+                Filter = "音乐文件 (*.mp3)|*.mp3*|所有文件 (*.*)|*.*",
                 RestoreDirectory = true
             };
             if (_openfile.ShowDialog() == true) 
@@ -205,93 +296,9 @@ namespace FramelessWPF
                     Bass.BASS_ChannelStop(_stream);
                     Bass.BASS_StreamFree(_stream);                
                     _filename = _openfile.FileName;
-                    Play();
-                    TagLib.Tag tag = TagLib.File.Create(_filename).Tag;
-                    if (tag.Pictures.Length > 0)
-                    {
-                        using (MemoryStream albumArtworkMemStream = new MemoryStream(tag.Pictures[0].Data.Data))
-                        {
-                            try
-                            {
-                                BitmapImage albumImage = new BitmapImage();
-                                albumImage.BeginInit();
-                                albumImage.CacheOption = BitmapCacheOption.OnLoad;                            
-                                albumImage.StreamSource = albumArtworkMemStream;
-                                albumImage.DecodePixelHeight = 50;
-                                albumImage.DecodePixelWidth = 50;
-                                albumImage.EndInit();                             
-                                ImageAlbumArt.Source = albumImage.Clone();
-                                using (MemoryStream albumArtworkMemStream2 = new MemoryStream(tag.Pictures[0].Data.Data))
-                                {
-                                    BitmapImage albumImage2 = new BitmapImage();
-                                    albumImage2.BeginInit();
-                                    albumImage2.CacheOption = BitmapCacheOption.OnLoad;
-                                    albumImage2.StreamSource = albumArtworkMemStream2;
-                                    albumImage2.DecodePixelHeight = 200;
-                                    albumImage2.DecodePixelWidth = 200;
-                                    albumImage2.EndInit();
-                                    ImageAlbumArtBig.Source = albumImage2;
-                                    albumArtworkMemStream2.Close();
-                                }
-                            }
-                            catch (NotSupportedException)
-                            {
-                                ImageAlbumArt.Source = null;
-                            }
-                            albumArtworkMemStream.Close();                           
-                        }
-                    }
-                    else
-                    {
-                        ImageAlbumArt.Source = null;
-                    }
-                    
-                    string blankspace = "    ";
-                    TAG_INFO info = new TAG_INFO(_filename);
-                    if(BassTags.BASS_TAG_GetFromFile(_stream,info))
-                    {                     
-                        LabelTitle.Content = info.title;
-                        LabelTitleForCard.Text = info.title;
-                        LabelAlbumForCard.Text = info.album;
-                        System.Text.StringBuilder albumtext = new System.Text.StringBuilder();               
-                        albumtext.Append(info.artist);
-                        albumtext.Append(" ");
-                        albumtext.Append(info.year);
-                        LabelArtistForCard.Text = albumtext.ToString();
-                        albumtext.Remove(0,albumtext.Length);
-                        albumtext.Append("   比特率");
-                        albumtext.Append(blankspace);
-                        albumtext.Append(info.bitrate);
-                        albumtext.Append("kbps");
-                        ListViewItemBit.Content = albumtext;
-                        System.Text.StringBuilder n_rating = new System.Text.StringBuilder();
-                        n_rating.Append("   采样率");
-                        n_rating.Append(blankspace);
-                        n_rating.Append("44.100");
-                        ListViewItemRate.Content = n_rating;
-                        FileInfo _fileinfo = new FileInfo(info.filename);
-                        System.Text.StringBuilder n_writetime = new System.Text.StringBuilder();
-                        n_writetime.Append("修改时间");
-                        n_writetime.Append(blankspace);
-                        n_writetime.Append(_fileinfo.CreationTime);
-                        ListViewItemWriteTime.Content = n_writetime;
-                        System.Text.StringBuilder n_addtime = new System.Text.StringBuilder();
-                        n_addtime.Append("添加时间");
-                        n_addtime.Append(blankspace);
-                        n_addtime.Append(_fileinfo.LastWriteTime);
-                        ListViewItemAddTime.Content = n_addtime;
-                        System.Text.StringBuilder n_filesize = new System.Text.StringBuilder();
-                        string _filesize = _fileinfo.Length / 1024 / 1024 + "." + Math.Round((double)(_fileinfo.Length / 1024 % 1024 / 10), 2) + "MB";
-                        n_filesize.Append("文件大小");
-                        n_filesize.Append(blankspace);
-                        n_filesize.Append(_filesize);
-                        ListViewItemFileSize.Content = n_filesize;
-                        System.Text.StringBuilder n_filepath = new System.Text.StringBuilder();
-                        n_filepath.Append("文件位置");
-                        n_filepath.Append(blankspace);
-                        n_filepath.Append(_fileinfo.DirectoryName);
-                        ListViewItemFilePath.Content = n_filepath;                       
-                    }
+                    Console.WriteLine(_filename);
+                    Play(_filename);
+                    GetTagInformation(_filename);
 
                 }
                 else
@@ -305,7 +312,7 @@ namespace FramelessWPF
         {
             if (_stream != 0)
             {
-                Play();
+                Play(_filename);
             }
             else
             {
@@ -357,7 +364,7 @@ namespace FramelessWPF
 
         private void BtnPlayForTaskBar_Click(object sender, EventArgs e)
         {
-            Play();
+            Play(_filename);
         }
 
         private void MenuItem_About_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -373,10 +380,12 @@ namespace FramelessWPF
 
         private void BtnOpenLyric_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            OpenFileDialog _openfile = new OpenFileDialog();
-            _openfile.Title = "打开歌词文件";
-            _openfile.Filter = "歌词文件(*.lrc)|*.lrc";
-            _openfile.RestoreDirectory = true;
+            OpenFileDialog _openfile = new OpenFileDialog()
+            {
+                Title = "打开歌词文件",
+                Filter = "歌词文件(*.lrc)|*.lrc",
+                RestoreDirectory = true
+            };
             if (_openfile.ShowDialog(this) == true)
             {
                 getLT.getLyricAndLyricTimeByLyricPath(_openfile.FileName);
@@ -392,7 +401,7 @@ namespace FramelessWPF
             OpenFileDialog _openfile = new OpenFileDialog()
             {
                 Title = "打开CD文件",
-                Filter = "CDA文件(.cda|*.cda",
+                Filter = "CDA文件(*.cda)|*.cda",
                 RestoreDirectory = true
             };
             if (_openfile.ShowDialog() == true)
@@ -614,21 +623,86 @@ namespace FramelessWPF
                 switch (split[0])
                 {
                     case "play":
-                        BtnPlay_Click(null, null);
+                        if (split[1] == null)
+                        {
+                            BtnPlay_Click(null, null);                           
+                        }else if (split[1] != null)
+                        {
+                            Play(split[1].Clone().ToString());
+                            GetTagInformation(split[1].Clone().ToString());
+                        }                        
                         break;
                     case "pause":
+                        MenuItem_Play_Pause_Click(null, null);
                         break;
                     case "stop":
+                        MenuItem_StopPlay_Click(null, null);
+                        break;
+                    case "random":
+                        MenuItem_PlayFromStart_Click(null, null);
+                        break;
+                    case "openfile":
+                        MenuItem_OpenFile_Click(null, null);
+                        break;
+                    case "volumeup":
+                        try
+                        {
+                            System.Text.RegularExpressions.Regex _regex = new System.Text.RegularExpressions.Regex(@"^[0-9]\d*$");
+                            if (_regex.IsMatch(split[1]))
+                            {
+                                MainVolume.Value += Convert.ToInt32(split[1]);
+                                MainVolume_ValueChanged(null, null);
+                            }
+                            else
+                            {
+                                int _volume = Convert.ToInt32(split[1]);
+                                MainVolume.Value += Convert.ToInt32(split[1]);
+                                MainVolume_ValueChanged(null, null);
+                            }
+                        }
+                        catch (NotSupportedException)
+                        {
+                            dig_Error.IsOpen = true;
+                            return;
+                        }
+                        break;
+                    case "volumedown":
+                        try
+                        {
+                            System.Text.RegularExpressions.Regex _regex = new System.Text.RegularExpressions.Regex(@"^[0-9]\d*$");
+                            if (_regex.IsMatch(split[1]))
+                            {
+                                MainVolume.Value -= Convert.ToInt32(split[1]);
+                                MainVolume_ValueChanged(null, null);
+                            }
+                            else
+                            {
+                                int _volume = Convert.ToInt32(split[1]);
+                                MainVolume.Value -= Convert.ToInt32(split[1]);
+                                MainVolume_ValueChanged(null, null);
+                            }
+                        }
+                        catch (NotSupportedException)
+                        {
+                            dig_Error.IsOpen = true;
+                            return;
+                        }
                         break;
                     case "openaboutview":
                         MenuItem_About_Click(null, null);
                         break;
                     default:
+                        dig_Error.IsOpen = true;
                         break;
                 }
 
             }
                 
+        }
+
+        private void Dig_Error_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            return;
         }
 
         /*

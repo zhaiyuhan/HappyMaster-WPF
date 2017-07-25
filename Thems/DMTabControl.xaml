@@ -578,7 +578,7 @@
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="BorderThickness" TargetName="x" Value="0"></Setter>
                             <Setter Property="Foreground" TargetName="Content" Value="#FFE5E5E7"></Setter>
-                            <Setter Property="Background" TargetName="x" Value="#FF7C7D85"></Setter>
+                            <Setter Property="Background" TargetName="x" Value="#FF2687FB"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -615,7 +615,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Foreground" TargetName="Content" Value="#FFE5E5E7"></Setter>
-                            <Setter Property="Background" TargetName="x" Value="#FF7C7D85"></Setter>
+                            <Setter Property="Background" TargetName="x" Value="#FF2687FB"></Setter>
                             <Setter Property="BorderThickness" TargetName="x" Value="0"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -653,7 +653,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Foreground" TargetName="Content" Value="#FFE5E5E7"></Setter>
-                            <Setter Property="Background" TargetName="x" Value="#FF7C7D85"></Setter>
+                            <Setter Property="Background" TargetName="x" Value="#FF2687FB"></Setter>
                             <Setter Property="BorderThickness" TargetName="x" Value="0"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -124,6 +124,25 @@
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
+            <materialDesign:DialogHost x:Name="dig_Error" Grid.RowSpan="3" DialogClosing="Dig_Error_DialogClosing"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                <materialDesign:DialogHost.DialogContent>
+                    <StackPanel Margin="16">
+                        <TextBlock VerticalAlignment="Center">请输入正确命令</TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                                        IsDefault="True"                                      
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" 
+                                    Foreground="#FF2687FB" Margin="8,0,15,0">
+                                <Button.CommandParameter>
+                                    <system:Boolean>True</system:Boolean>
+                                </Button.CommandParameter>
+                                确定
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
             <Menu x:Name="MainMenu" Grid.Row="0" Height="25" VerticalAlignment="Top" Background="White">
                 <MenuItem Header="文件" Height="25">
                     <MenuItem x:Name="MenuItem_OpenFile" Header="打开" Click="MenuItem_OpenFile_Click"/>
@@ -200,7 +219,11 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <materialDesign:Card Grid.Column="0" x:Name="ImageAlbumArtBG" materialDesign:ShadowAssist.ShadowDepth="Depth2" Background="White" BorderBrush="Black" OpacityMask="Black" Width="45" Height="45" HorizontalAlignment="Left" MouseEnter="ImageAlbumArtBG_MouseEnter" MouseLeave="ImageAlbumArtBG_MouseLeave" VerticalAlignment="Center">
+                        <materialDesign:Card Grid.Column="0" x:Name="ImageAlbumArtBG" 
+                        materialDesign:ShadowAssist.ShadowDepth="Depth2" 
+                        Width="45" Height="45"
+                        MouseEnter="ImageAlbumArtBG_MouseEnter" MouseLeave="ImageAlbumArtBG_MouseLeave" 
+                        HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Image x:Name="ImageAlbumArt" Stretch="UniformToFill" Margin="0"/>
                         </materialDesign:Card>
                         <Grid MinWidth="300" Grid.ColumnSpan="2" Margin="70,0,10,0">
