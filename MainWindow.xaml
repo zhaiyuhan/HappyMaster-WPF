@@ -42,7 +42,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                
+
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="Thems/DMTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
@@ -99,7 +99,7 @@
                         <TextBlock VerticalAlignment="Center">命令行</TextBlock>
                         <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="TextBoxInputCommand" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                            
+
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsDefault="True"
                                         Margin="0 8 8 0"
@@ -145,20 +145,23 @@
             </materialDesign:DialogHost>
             <Menu x:Name="MainMenu" Grid.Row="0" Height="25" VerticalAlignment="Top" Background="White">
                 <MenuItem Header="文件" Height="25">
-                    <MenuItem x:Name="MenuItem_OpenFile" Header="打开" Click="MenuItem_OpenFile_Click"/>
+                    <MenuItem x:Name="MenuItem_OpenFile" Header="打开" Click="MenuItem_OpenFile_Click" InputGestureText="Ctrl+O"/>
                     <MenuItem x:Name="MenuItem_OpenCD" Header="打开CD" Click="MenuItem_OpenCD_Click"/>
-                    <MenuItem x:Name="MenuItem_AddFile" Header="添加文件"/>
+                    <MenuItem x:Name="MenuItem_AddFile" Header="添加文件" InputGestureText="Ctrl+A"/>
+                    <MenuItem x:Name="MenuItem_AddFloder" Header="添加文件夹" InputGestureText="Ctrl+Shift+A"/>
                     <MenuItem x:Name="MenuItem_AddCD" Header="载入光驱"/>
-                    <MenuItem x:Name="MenuItem_Exit" Header="退出" Click="MenuItem_Exit_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="MenuItem_Exit" Header="退出" Click="MenuItem_Exit_Click" InputGestureText="Alt+E"/>
                 </MenuItem>
                 <MenuItem Header="编辑" Height="Auto">
-                    <MenuItem x:Name="MenuItem_Play_Pause" Header="播放/暂停" Click="MenuItem_Play_Pause_Click"/>
+                    <MenuItem x:Name="MenuItem_Play_Pause" Header="播放/暂停" Click="MenuItem_Play_Pause_Click" InputGestureText="空格"/>
                     <MenuItem x:Name="MenuItem_PlayFromStart" Header="从头播放" Click="MenuItem_PlayFromStart_Click"/>
                     <MenuItem x:Name="MenuItem_StopPlay" Header="停止播放" Click="MenuItem_StopPlay_Click"/>
                     <MenuItem Header="上一个"/>
                     <MenuItem Header="下一个"/>
                     <Separator/>
-                    <MenuItem Header="拷贝当前文件"/>
+                    <MenuItem x:Name="MenuItem_CopyFile" Header="拷贝当前文件" Click="MenuItem_CopyFile_Click"/>
+                    <MenuItem Header="拷贝当前文件至"/>
                     <MenuItem Header="循环播放当前项"/>
                     <Separator/>
                     <MenuItem x:Name="MenuItem_VolumeUp" Header="增大音量" Click="MenuItem_VolumeUp_Click"/>
@@ -176,6 +179,7 @@
                     <MenuItem x:Name="MenuItem_MaxView" Header="最大化" Click="MenuItem_MaxView_Click"/>
                     <MenuItem x:Name="MenuItem_MinView" Header="最小化" Click="MenuItem_MinView_Click"/>
                     <MenuItem x:Name="MenuItem_CloseView" Header="关闭窗口" Click="MenuItem_CloseView_Click"/>
+                    <MenuItem x:Name="MenuItem_ToggleTopMost" Header="窗口置前" Click="MenuItem_ToggleTopMost_Click" IsCheckable="True"/>
                 </MenuItem>
                 <MenuItem Header="帮助" Height="Auto">
                     <MenuItem Header="查看帮助"/>
@@ -211,6 +215,12 @@
                     <Button x:Name="BtnchangeVolume" Style="{StaticResource MaterialDesignFlatButton}" Click="BtnchangeVolume_Click" Height="Auto" Margin="0,10,0,14" HorizontalAlignment="Left" Panel.ZIndex="1">
                         <materialDesign:PackIcon x:Name="packicon_volumestate" Kind="VolumeHigh" Foreground="#FF2687FB" />
                     </Button>
+                    <!--<Path Width="20" Height="20" Stretch="UniformToFill" Margin="10,128.633,130,-165.732">
+                        <Path.Data>
+                            <PathGeometry Figures="M160.384 387.872V32a32 32 0 0 0-64 0v355.84C41.056 402.112-0.032 452.288-0.032 512s41.088 109.888 96.416 124.192V992a32 32 0 0 0 64 0V636.16c55.296-14.304 96.32-64.448 96.32-124.16s-41.024-109.856-96.32-124.128z m-31.648 188.16L128.384 576l-0.416 0.064c-35.168-0.192-63.68-28.832-63.68-64.064s28.576-63.84 63.712-64.032l0.384 0.032 0.352-0.032c35.136 0.224 63.648 28.864 63.648 64.032s-28.512 63.808-63.648 64.032z m415.648 3.84V32a32 32 0 0 0-64 0v547.84c-55.328 14.272-96.384 64.448-96.384 124.16s41.088 109.888 96.384 124.192v163.84a32 32 0 0 0 64 0v-163.84a128.48 128.48 0 0 0 96.288-124.16 128.512 128.512 0 0 0-96.288-124.128z m-31.648 188.16L512.352 768l-0.416 0.064c-35.136-0.192-63.68-28.832-63.68-64.064s28.608-63.872 63.808-64.032l0.352 0.032 0.288-0.032c35.168 0.192 63.744 28.832 63.744 64.032s-28.544 63.808-63.68 64.032z m415.648-572.16V32a32 32 0 0 0-64 0v163.84c-55.328 14.272-96.384 64.448-96.384 124.16s41.088 109.92 96.384 124.16v547.808a32 32 0 0 0 64 0v-547.84a128.48 128.48 0 0 0 96.288-124.16 128.544 128.544 0 0 0-96.288-124.128z m-31.648 188.16L896.384 384l-0.416 0.032c-35.168-0.192-63.712-28.832-63.712-64.032s28.544-63.84 63.68-64.032l0.416 0.032 0.352-0.032A64.128 64.128 0 0 1 960.352 320a64.064 64.064 0 0 1-63.648 64.032z" />
+                        </Path.Data>
+                    </Path>-->
+                    
                     <Slider x:Name="MainVolume" Maximum="100" ValueChanged="MainVolume_ValueChanged" Style="{StaticResource MaterialDesignDiscreteSlider}" Foreground="#FFB9B7B7" Margin="10,10,0,0"/>
                 </Grid>
                 <Grid Grid.Column="2">
@@ -228,17 +238,18 @@
                         </materialDesign:Card>
                         <Grid MinWidth="300" Grid.ColumnSpan="2" Margin="70,0,10,0">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <Label x:Name="LabelTime" Content="" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Label x:Name="LabelTime" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                 <Label x:Name="LabelTitle" Content="" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                                <Label x:Name="LabelLeftTime" Content="" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                <Label x:Name="LabelArtist" Content="" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                <Label x:Name="LabelLeftTime" Content="" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                             </Grid>
                             <Slider Grid.Row="1" 
                                     x:Name="MainProgressBar"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Bottom"
                                     MouseUp="MainProgressBar_MouseUp"
                                     IsMoveToPointEnabled="True" 
                                     Thumb.DragCompleted="MainProgressBar_DragCompleted" 
@@ -260,10 +271,12 @@
                         <Button Style="{DynamicResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                         </Button>
-                        <TextBox Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="请输入搜索内容" 
+                        <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="请输入搜索内容" 
                                      materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
-                                     MinWidth="200" VerticalAlignment="Center" />
-                        <Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="2">
+                                     MinWidth="200" VerticalAlignment="Center" TextChanged="TextBox_Search_TextChanged" TextInput="TextBox_Search_TextInput" />
+                        <Button x:Name="Btn_Search" Style="{DynamicResource MaterialDesignToolButton}"
+                                Grid.Column="2" Visibility="Hidden"
+                                Click="Btn_Search_Click" GotFocus="Btn_Search_GotFocus" LostFocus="Btn_Search_LostFocus">
                             <materialDesign:PackIcon Kind="CloseCircleOutline" Opacity=".56" Margin="8 0 0 0" />
                         </Button>
                     </Grid>
@@ -491,7 +504,7 @@
                             </Expander>
                         </StackPanel>
                     </materialDesign:Card>
-                        
+
                 </Grid>
             </ScrollViewer>
         </Grid>

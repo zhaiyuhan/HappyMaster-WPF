@@ -237,7 +237,9 @@ namespace FramelessWPF
             TAG_INFO info = new TAG_INFO(m_filename);
             if (BassTags.BASS_TAG_GetFromFile(_stream, info))
             {
+               // ImageAlbumArt.Source = info.PictureGetImage(0);
                 LabelTitle.Content = info.title;
+                LabelArtist.Content = info.artist;
                 LabelTitleForCard.Text = info.title;
                 LabelAlbumForCard.Text = info.album;
                 System.Text.StringBuilder albumtext = new System.Text.StringBuilder();
@@ -547,6 +549,7 @@ namespace FramelessWPF
             LabelLeftTime.Content = null;
             LabelTime.Content = null;
             LabelTitle.Content = null;
+            LabelTitle.Content = null;
             LabelTitleForCard.Text = null;
             MainProgressBar.Value = 0;
             _maintimer.Stop();
@@ -641,6 +644,8 @@ namespace FramelessWPF
                     case "random":
                         MenuItem_PlayFromStart_Click(null, null);
                         break;
+                    case "addfile":
+                        break;
                     case "openfile":
                         MenuItem_OpenFile_Click(null, null);
                         break;
@@ -688,8 +693,15 @@ namespace FramelessWPF
                             return;
                         }
                         break;
+                    case "setvolume":
+                        MainVolume.Value = Convert.ToDouble(split[1]);
+                        MainVolume_ValueChanged(null, null);
+                        break;
                     case "openaboutview":
                         MenuItem_About_Click(null, null);
+                        break;
+                    case "exitapp":
+                        Close();
                         break;
                     default:
                         dig_Error.IsOpen = true;
@@ -703,6 +715,56 @@ namespace FramelessWPF
         private void Dig_Error_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
             return;
+        }
+
+        private void MenuItem_ToggleTopMost_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (MenuItem_ToggleTopMost.IsChecked) this.Topmost = true;
+            if (!MenuItem_ToggleTopMost.IsChecked) this.Topmost = false;
+        }
+
+        private void MenuItem_CopyFile_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(_filename)) 
+            {
+                string[] file = new string[1];
+                file[0] = _filename;
+                System.Windows.DataObject dataObject = new System.Windows.DataObject();
+                dataObject.SetData(System.Windows.DataFormats.FileDrop, file);
+                System.Windows.Clipboard.SetDataObject(dataObject, true);
+            }
+        }
+
+        private void TextBox_Search_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (TextBox_Search.Text != null)
+            {
+                Btn_Search.Visibility = System.Windows.Visibility.Visible ;
+            }else if(TextBox_Search.Text==string.Empty) {
+                Console.WriteLine("emit");
+                Btn_Search.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
+        private void Btn_Search_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            TextBox_Search.Text = null;
+            Btn_Search.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void Btn_Search_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (TextBox_Search.Text != null) Btn_Search.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void Btn_Search_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Btn_Search.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void TextBox_Search_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TextBox_Search.Text == null) { Btn_Search.Visibility = System.Windows.Visibility.Hidden;  }
         }
 
         /*
