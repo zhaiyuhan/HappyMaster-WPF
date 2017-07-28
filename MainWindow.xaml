@@ -59,7 +59,7 @@
         <Grid Grid.Row="0" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition MaxHeight="25"/>
-                <RowDefinition MaxHeight="66"/>
+                <RowDefinition MaxHeight="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <materialDesign:DialogHost x:Name="dig_ifCreatStream" Grid.RowSpan="3" DialogClosing="DialogHost_DialogClosing" 
@@ -188,101 +188,133 @@
                     <MenuItem x:Name="MenuItem_About" Header="关于HappyMaster" Click="MenuItem_About_Click"/>
                 </MenuItem>
             </Menu>
-            <Grid Grid.Row="1" Background="#FFF6F6F6" MinHeight="66">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="200" MaxWidth="200"/>
-                    <ColumnDefinition MinWidth="160" MaxWidth="160"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Margin="10,0">
+            <materialDesign:ColorZone Grid.Row="1" Mode="PrimaryDark" Padding="0" CornerRadius="5" materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
+                <Grid Background="#FFF6F6F6" MinHeight="70">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="200" MaxWidth="200"/>
+                        <ColumnDefinition MinWidth="160" MaxWidth="160"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition MinWidth="200" MaxWidth="300"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="0,0,2,0" Foreground="#FF565656" Background="White" BorderBrush="Gainsboro">
-                        <materialDesign:PackIcon Kind="SkipPrevious" />
-                    </Button>
-                    <Button Grid.Column="1" x:Name="btnPlay" Click="BtnPlay_Click" Margin="2,0" Background="White" Foreground="#FF565656" BorderBrush="Gainsboro">
-                        <materialDesign:PackIcon x:Name="iconPlay" Kind="Play" />
-                    </Button>
-                    <Button Grid.Column="2" Margin="2,0,2,0" Background="White" Foreground="#FF565656" BorderBrush="Gainsboro">
-                        <materialDesign:PackIcon Kind="SkipNext" />
-                    </Button>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Button x:Name="BtnchangeVolume" Style="{StaticResource MaterialDesignFlatButton}" Click="BtnchangeVolume_Click" Height="Auto" Margin="0,10,0,14" HorizontalAlignment="Left" Panel.ZIndex="1">
-                        <materialDesign:PackIcon x:Name="packicon_volumestate" Kind="VolumeHigh" Foreground="#FF2687FB" />
-                    </Button>
-                    <!--<Path Width="20" Height="20" Stretch="UniformToFill" Margin="10,128.633,130,-165.732">
-                        <Path.Data>
-                            <PathGeometry Figures="M160.384 387.872V32a32 32 0 0 0-64 0v355.84C41.056 402.112-0.032 452.288-0.032 512s41.088 109.888 96.416 124.192V992a32 32 0 0 0 64 0V636.16c55.296-14.304 96.32-64.448 96.32-124.16s-41.024-109.856-96.32-124.128z m-31.648 188.16L128.384 576l-0.416 0.064c-35.168-0.192-63.68-28.832-63.68-64.064s28.576-63.84 63.712-64.032l0.384 0.032 0.352-0.032c35.136 0.224 63.648 28.864 63.648 64.032s-28.512 63.808-63.648 64.032z m415.648 3.84V32a32 32 0 0 0-64 0v547.84c-55.328 14.272-96.384 64.448-96.384 124.16s41.088 109.888 96.384 124.192v163.84a32 32 0 0 0 64 0v-163.84a128.48 128.48 0 0 0 96.288-124.16 128.512 128.512 0 0 0-96.288-124.128z m-31.648 188.16L512.352 768l-0.416 0.064c-35.136-0.192-63.68-28.832-63.68-64.064s28.608-63.872 63.808-64.032l0.352 0.032 0.288-0.032c35.168 0.192 63.744 28.832 63.744 64.032s-28.544 63.808-63.68 64.032z m415.648-572.16V32a32 32 0 0 0-64 0v163.84c-55.328 14.272-96.384 64.448-96.384 124.16s41.088 109.92 96.384 124.16v547.808a32 32 0 0 0 64 0v-547.84a128.48 128.48 0 0 0 96.288-124.16 128.544 128.544 0 0 0-96.288-124.128z m-31.648 188.16L896.384 384l-0.416 0.032c-35.168-0.192-63.712-28.832-63.712-64.032s28.544-63.84 63.68-64.032l0.416 0.032 0.352-0.032A64.128 64.128 0 0 1 960.352 320a64.064 64.064 0 0 1-63.648 64.032z" />
-                        </Path.Data>
-                    </Path>-->
-                    
-                    <Slider x:Name="MainVolume" Maximum="100" ValueChanged="MainVolume_ValueChanged" Style="{StaticResource MaterialDesignDiscreteSlider}" Foreground="#FFB9B7B7" Margin="10,10,0,0"/>
-                </Grid>
-                <Grid Grid.Column="2">
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="66" MinWidth="440" MaxWidth="600">
+                    <Grid Grid.Column="0" Margin="10,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <materialDesign:Card Grid.Column="0" x:Name="ImageAlbumArtBG" 
+                        <Button Grid.Column="0" Margin="0,0,2,0" Foreground="#FF565656" Background="White" BorderBrush="Gainsboro">
+                            <materialDesign:PackIcon Kind="SkipPrevious" />
+                        </Button>
+                        <Button Grid.Column="1" x:Name="btnPlay" Click="BtnPlay_Click" Margin="2,0" Background="White" Foreground="#FF565656" BorderBrush="Gainsboro">
+                            <materialDesign:PackIcon x:Name="iconPlay" Kind="Play" />
+                        </Button>
+                        <Button Grid.Column="2" Margin="2,0,2,0" Background="White" Foreground="#FF565656" BorderBrush="Gainsboro">
+                            <materialDesign:PackIcon Kind="SkipNext" />
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="0,0,0,10">
+                        <Button x:Name="BtnchangeVolume" Style="{StaticResource MaterialDesignFlatButton}" Click="BtnchangeVolume_Click" Height="Auto" Margin="0,10,0,14" HorizontalAlignment="Left" Panel.ZIndex="1">
+                            <materialDesign:PackIcon x:Name="packicon_volumestate" Kind="VolumeHigh" Foreground="#FF2687FB" />
+                        </Button>
+                        <Button Height="42" Width="60" Style="{StaticResource MaterialDesignFlatButton}" Margin="50,10,5,14">
+                            <Path Width="20" Height="20" Stretch="UniformToFill" Fill="#FF2687FB">
+                                <Path.Data>
+                                    <PathGeometry Figures="M160.384 387.872V32a32 32 0 0 0-64 0v355.84C41.056 402.112-0.032 452.288-0.032 512s41.088 109.888 96.416 124.192V992a32 32 0 0 0 64 0V636.16c55.296-14.304 96.32-64.448 96.32-124.16s-41.024-109.856-96.32-124.128z m-31.648 188.16L128.384 576l-0.416 0.064c-35.168-0.192-63.68-28.832-63.68-64.064s28.576-63.84 63.712-64.032l0.384 0.032 0.352-0.032c35.136 0.224 63.648 28.864 63.648 64.032s-28.512 63.808-63.648 64.032z m415.648 3.84V32a32 32 0 0 0-64 0v547.84c-55.328 14.272-96.384 64.448-96.384 124.16s41.088 109.888 96.384 124.192v163.84a32 32 0 0 0 64 0v-163.84a128.48 128.48 0 0 0 96.288-124.16 128.512 128.512 0 0 0-96.288-124.128z m-31.648 188.16L512.352 768l-0.416 0.064c-35.136-0.192-63.68-28.832-63.68-64.064s28.608-63.872 63.808-64.032l0.352 0.032 0.288-0.032c35.168 0.192 63.744 28.832 63.744 64.032s-28.544 63.808-63.68 64.032z m415.648-572.16V32a32 32 0 0 0-64 0v163.84c-55.328 14.272-96.384 64.448-96.384 124.16s41.088 109.92 96.384 124.16v547.808a32 32 0 0 0 64 0v-547.84a128.48 128.48 0 0 0 96.288-124.16 128.544 128.544 0 0 0-96.288-124.128z m-31.648 188.16L896.384 384l-0.416 0.032c-35.168-0.192-63.712-28.832-63.712-64.032s28.544-63.84 63.68-64.032l0.416 0.032 0.352-0.032A64.128 64.128 0 0 1 960.352 320a64.064 64.064 0 0 1-63.648 64.032z" />
+                                </Path.Data>
+                            </Path>
+                        </Button>
+                        <Slider x:Name="MainVolume" Maximum="100" ValueChanged="MainVolume_ValueChanged" Style="{StaticResource MaterialDesignDiscreteSlider}" Foreground="#FFB9B7B7" Margin="0,0,10,4"/>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="148,0,0,10" Grid.ColumnSpan="2">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="70" MinWidth="440" MaxWidth="800">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:Card Grid.Column="0" x:Name="ImageAlbumArtBG" 
                         materialDesign:ShadowAssist.ShadowDepth="Depth2" 
                         Width="45" Height="45"
                         MouseEnter="ImageAlbumArtBG_MouseEnter" MouseLeave="ImageAlbumArtBG_MouseLeave" 
                         HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Image x:Name="ImageAlbumArt" Stretch="UniformToFill" Margin="0"/>
-                        </materialDesign:Card>
-                        <Grid MinWidth="300" Grid.ColumnSpan="2" Margin="70,0,10,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <Label x:Name="LabelTime" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                                <Label x:Name="LabelTitle" Content="" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                                <Label x:Name="LabelArtist" Content="" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                                <Label x:Name="LabelLeftTime" Content="" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                            </Grid>
-                            <Slider Grid.Row="1" 
+                                <Image x:Name="ImageAlbumArt" Stretch="UniformToFill" Margin="0"/>
+                            </materialDesign:Card>
+                            <Grid MinWidth="300" Grid.ColumnSpan="2" Margin="70,0,10,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Label x:Name="LabelTime" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                    <Label x:Name="LabelTitle" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+                                    <Label x:Name="LabelArtist" Content="" HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity="0.67" FontSize="10"/>
+                                    <Label x:Name="LabelLeftTime" Content="" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="20">
+                                        <Viewbox Stretch="UniformToFill" Height="20" Width="20">
+                                            <Canvas Name="svg3692" Width="20" Height="20">
+                                                <Canvas.RenderTransform>
+                                                    <TranslateTransform X="0" Y="0"/>
+                                                </Canvas.RenderTransform>
+                                                <Canvas.Resources/>
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3684" Fill="#FF2687FB">
+                                                    <Path.Data>
+                                                        <PathGeometry Figures="M815.045407 826.541813c-18.198218-20.869307-76.860685-88.349187-110.542175-127.250172l68.990106 0L773.493338 185.452759l84.138744 0 0 513.839905 67.838838 0C892.265287 737.579665 834.40001 804.258297 815.045407 826.541813z" FillRule="NonZero"/>
+                                                    </Path.Data>
+                                                </Path>
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3686" Fill="#FF2687FB">
+                                                    <Path.Data>
+                                                        <PathGeometry Figures="M64.491463 689.618327l483.5468 0 0 58.014298-483.5468 0 0-58.014298Z" FillRule="NonZero"/>
+                                                    </Path.Data>
+                                                </Path>
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3688" Fill="#FF2687FB">
+                                                    <Path.Data>
+                                                        <PathGeometry Figures="M64.491463 456.056873l576.145571 0 0 58.014298-576.145571 0 0-58.014298Z" FillRule="NonZero"/>
+                                                    </Path.Data>
+                                                </Path>
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3690" Fill="#FF2687FB">
+                                                    <Path.Data>
+                                                        <PathGeometry Figures="M64.491463 222.490304l576.145571 0 0 58.014298-576.145571 0 0-58.014298Z" FillRule="NonZero"/>
+                                                    </Path.Data>
+                                                </Path>
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
+                                <Slider Grid.Row="1" 
                                     x:Name="MainProgressBar"
                                     VerticalAlignment="Bottom"
                                     MouseUp="MainProgressBar_MouseUp"
                                     IsMoveToPointEnabled="True" 
                                     Thumb.DragCompleted="MainProgressBar_DragCompleted" 
                                     Thumb.DragStarted="MainProgressBar_DragStarted"
-                                    Foreground="#FFB9B7B7"/>
-                        </Grid>
+                                    Foreground="#FFB9B7B7" Margin="0,0,0,4"/>
+                            </Grid>
 
+                        </Grid>
                     </Grid>
-                </Grid>
-                <materialDesign:ColorZone Grid.Column="3" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
+                    <materialDesign:ColorZone Grid.Column="3" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
                                    Margin="10,12,5,0"
                                    materialDesign:ShadowAssist.ShadowDepth="Depth1">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Button Style="{DynamicResource MaterialDesignToolButton}">
-                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
-                        </Button>
-                        <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="请输入搜索内容" 
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                            </Button>
+                            <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="请输入搜索内容" 
                                      materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
                                      MinWidth="200" VerticalAlignment="Center" TextChanged="TextBox_Search_TextChanged" TextInput="TextBox_Search_TextInput" />
-                        <Button x:Name="Btn_Search" Style="{DynamicResource MaterialDesignToolButton}"
+                            <Button x:Name="Btn_Search" Style="{DynamicResource MaterialDesignToolButton}"
                                 Grid.Column="2" Visibility="Hidden"
                                 Click="Btn_Search_Click" GotFocus="Btn_Search_GotFocus" LostFocus="Btn_Search_LostFocus">
-                            <materialDesign:PackIcon Kind="CloseCircleOutline" Opacity=".56" Margin="8 0 0 0" />
-                        </Button>
-                    </Grid>
-                </materialDesign:ColorZone>
-            </Grid>
-
+                                <materialDesign:PackIcon Kind="CloseCircleOutline" Opacity=".56" Margin="8 0 0 0" />
+                            </Button>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </Grid>
+            </materialDesign:ColorZone>
             <ScrollViewer Grid.Row="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
