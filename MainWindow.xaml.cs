@@ -13,6 +13,7 @@ using Un4seen.Bass.AddOn.Cd;
 using Un4seen.Bass.Misc;
 using System.Windows.Media;
 using System.Drawing;
+using System.Windows;
 
 namespace FramelessWPF
 {
@@ -237,8 +238,13 @@ namespace FramelessWPF
             TAG_INFO info = new TAG_INFO(m_filename);
             if (BassTags.BASS_TAG_GetFromFile(_stream, info))
             {
-               // ImageAlbumArt.Source = info.PictureGetImage(0);
-                LabelTitle.Content = info.title;
+                var tfile = TagLib.File.Create(m_filename);
+                LabelTitle.Content = tfile.Tag.Title;
+                LabelArtist.Content = info.artist;
+                LabelTitleForCard.Text = info.title;
+                LabelAlbumForCard.Text = info.album;
+                // ImageAlbumArt.Source = info.PictureGetImage(0);
+                // LabelTitle.Content = info.title;
                 LabelArtist.Content = info.artist;
                 LabelTitleForCard.Text = info.title;
                 LabelAlbumForCard.Text = info.album;
@@ -765,6 +771,14 @@ namespace FramelessWPF
         private void TextBox_Search_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TextBox_Search.Text == null) { Btn_Search.Visibility = System.Windows.Visibility.Hidden;  }
+        }
+
+        private void MainMenu_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
 
         /*

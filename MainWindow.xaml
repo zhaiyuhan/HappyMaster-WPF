@@ -1,23 +1,31 @@
-﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+﻿<fw:AcrylicWindow 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:system="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" x:Class="FramelessWPF.MainWindow"
-        Title="HappyMaster" 
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+    xmlns:shell="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+    fw:AcrylicWindow.Enabled="True"
+    fw:AcrylicWindowStyle="None"
+    mc:Ignorable="d"
+    x:Class="FramelessWPF.MainWindow"
+    Title="HappyMaster" 
     SnapsToDevicePixels="True" 
-        BorderThickness="0" 
-    BorderBrush="#FF007ACC" 
     Height="768" 
     Width="1024"
-        MinHeight="768" 
+    MinHeight="768" 
     MinWidth="1024" 
-    Style="{StaticResource MainWindowStyle}" 
     WindowStartupLocation="CenterScreen" 
-    Loaded="Window_Loaded" 
+    Loaded="Window_Loaded"     
+    SizeChanged="Window_SizeChanged"
     WindowStyle="SingleBorderWindow" 
-    SizeChanged="Window_SizeChanged">
+    BorderBrush="Transparent"
+    >
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="1" GlassFrameThickness="1" />
+    </WindowChrome.WindowChrome>
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="taskBarItemInfo1"                   
                      ThumbnailClipMargin="80,0,80,140"
@@ -42,7 +50,6 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="Thems/DMTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
@@ -52,18 +59,22 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="White">
+        <Grid Grid.Row="0" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="119*"/>
+                <ColumnDefinition Width="135*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition MaxHeight="25"/>
                 <RowDefinition MaxHeight="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <materialDesign:DialogHost x:Name="dig_ifCreatStream" Grid.RowSpan="3" DialogClosing="DialogHost_DialogClosing" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+            <materialDesign:DialogHost x:Name="dig_ifCreatStream" DialogClosing="DialogHost_DialogClosing" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="32,273,508,369" Grid.Row="2"
                                        >
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
@@ -93,7 +104,7 @@
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
-            <materialDesign:DialogHost x:Name="dig_Commander" Grid.RowSpan="3" DialogClosing="dig_Commander_DialogClosing" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <materialDesign:DialogHost x:Name="dig_Commander" DialogClosing="dig_Commander_DialogClosing" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="32,273,508,369" Grid.Row="2">
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
                         <TextBlock VerticalAlignment="Center">命令行</TextBlock>
@@ -124,7 +135,7 @@
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
-            <materialDesign:DialogHost x:Name="dig_Error" Grid.RowSpan="3" DialogClosing="Dig_Error_DialogClosing"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <materialDesign:DialogHost x:Name="dig_Error" DialogClosing="Dig_Error_DialogClosing"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="32,273,508,369" Grid.Row="2">
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
                         <TextBlock VerticalAlignment="Center">请输入正确命令</TextBlock>
@@ -143,7 +154,7 @@
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
-            <Menu x:Name="MainMenu" Grid.Row="0" Height="25" VerticalAlignment="Top" Background="White">
+            <Menu x:Name="MainMenu" Grid.Row="0" Height="25" Background="#7FFFFFFF" VerticalAlignment="Top" MouseMove="MainMenu_MouseMove" Grid.ColumnSpan="2">
                 <MenuItem Header="文件" Height="25">
                     <MenuItem x:Name="MenuItem_OpenFile" Header="打开" Click="MenuItem_OpenFile_Click" InputGestureText="Ctrl+O"/>
                     <MenuItem x:Name="MenuItem_OpenCD" Header="打开CD" Click="MenuItem_OpenCD_Click"/>
@@ -151,7 +162,7 @@
                     <MenuItem x:Name="MenuItem_AddFloder" Header="添加文件夹" InputGestureText="Ctrl+Shift+A"/>
                     <MenuItem x:Name="MenuItem_AddCD" Header="载入光驱"/>
                     <Separator/>
-                    <MenuItem x:Name="MenuItem_Exit" Header="退出" Click="MenuItem_Exit_Click" InputGestureText="Alt+E"/>
+                    <MenuItem x:Name="MenuItem_Exit" Header="退出" Background="#99FF0808" Click="MenuItem_Exit_Click" InputGestureText="Alt+E"/>
                 </MenuItem>
                 <MenuItem Header="编辑" Height="Auto">
                     <MenuItem x:Name="MenuItem_Play_Pause" Header="播放/暂停" Click="MenuItem_Play_Pause_Click" InputGestureText="空格"/>
@@ -188,15 +199,15 @@
                     <MenuItem x:Name="MenuItem_About" Header="关于HappyMaster" Click="MenuItem_About_Click"/>
                 </MenuItem>
             </Menu>
-            <materialDesign:ColorZone Grid.Row="1" Mode="PrimaryDark" Padding="0" CornerRadius="5" materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5">
-                <Grid Background="#FFF6F6F6" MinHeight="70">
+            <materialDesign:ColorZone Grid.Row="1" Mode="PrimaryDark"  Background="Transparent" Padding="0" CornerRadius="10" materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="5,5,5,0" Grid.ColumnSpan="2">
+                <Grid Background="Transparent" MinHeight="70">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="200" MaxWidth="200"/>
                         <ColumnDefinition MinWidth="160" MaxWidth="160"/>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition MinWidth="200" MaxWidth="300"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" Margin="10,0">
+                    <Grid Grid.Column="0" Margin="10,0" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -303,8 +314,10 @@
                             <Button Style="{DynamicResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                             </Button>
-                            <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="请输入搜索内容" 
+                            <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="8 0 0 0"
+                                     materialDesign:HintAssist.Hint="请输入搜索内容" 
                                      materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
+                                     
                                      MinWidth="200" VerticalAlignment="Center" TextChanged="TextBox_Search_TextChanged" TextInput="TextBox_Search_TextInput" />
                             <Button x:Name="Btn_Search" Style="{DynamicResource MaterialDesignToolButton}"
                                 Grid.Column="2" Visibility="Hidden"
@@ -315,7 +328,7 @@
                     </materialDesign:ColorZone>
                 </Grid>
             </materialDesign:ColorZone>
-            <ScrollViewer Grid.Row="2">
+            <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MaxWidth="400"/>
@@ -359,7 +372,7 @@
                             </TabControl>
                         </Grid>
                     </materialDesign:PopupBox>
-                    <materialDesign:Card Grid.Column="0" Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth3" Height="228" Margin="5,5,5,5" MaxHeight="210" MaxWidth="420">
+                    <materialDesign:Card Grid.Column="0" Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth5" Height="228" Margin="5,5,5,5" MaxHeight="210" MaxWidth="420" Background="#7FFFFFFF">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -388,14 +401,15 @@
                                              Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
                                          materialDesign:ShadowAssist.ShadowDepth="Depth3" 
                                          Padding="0" Margin="5,5,5,0"
+                                         Background="#4CFFFFFF"
                                          >
-                        <Grid>
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="40"/>
                                 <RowDefinition MinHeight="540"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" MinWidth="220" MinHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid Grid.Row="0" MinWidth="220" MinHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="70"/>
                                     <ColumnDefinition Width="50"/>
@@ -418,7 +432,7 @@
                                     文件
                                 </Button>
                             </Grid>
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding Items3}" 
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Items3}" Background="#33FFFFFF"
                                       CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="True"
                       materialDesign:DataGridAssist.CellPadding="0 0 0 0" 
                                       materialDesign:DataGridAssist.ColumnHeaderPadding="5" 
@@ -441,32 +455,31 @@
                                     <DataGridTextColumn Binding="{Binding Code}"
                                         Header="名称"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" Width="3*"/>
-
-                                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name}" Width="2*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Name}" Width="2*"
                                                                Header="艺人"                                                        
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                                                />
-                                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Description}" Width="3*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Description}" Width="3*"
                                                                Header="专辑"                                                        
                                                                MaxLength="255" 
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
-                                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Numeric}" Width="2*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Numeric}" Width="2*"
                                                         Header="时长"                                                         
                                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
-                                        <materialDesign:MaterialDataGridTextColumn.HeaderStyle>
+                                        <materialDesign:DataGridTextColumn.HeaderStyle>
                                             <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
                                                 <Setter Property="HorizontalAlignment" Value="Right" />
                                             </Style>
-                                        </materialDesign:MaterialDataGridTextColumn.HeaderStyle>
-                                        <materialDesign:MaterialDataGridTextColumn.ElementStyle>
+                                        </materialDesign:DataGridTextColumn.HeaderStyle>
+                                        <materialDesign:DataGridTextColumn.ElementStyle>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="HorizontalAlignment" Value="Right" />
                                             </Style>
-                                        </materialDesign:MaterialDataGridTextColumn.ElementStyle>
-                                    </materialDesign:MaterialDataGridTextColumn>
+                                        </materialDesign:DataGridTextColumn.ElementStyle>
+                                    </materialDesign:DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <DataGrid Grid.Row="2" ItemsSource="{Binding Items3}" 
+                            <DataGrid Grid.Row="2" ItemsSource="{Binding Items3}"  Background="#19FFFFFF"
                                        CanUserSortColumns="True" 
                                       CanUserAddRows="False"
                        materialDesign:DataGridAssist.CellPadding="4 2 2 2" 
@@ -477,9 +490,11 @@
                     </materialDesign:Card>
                     <materialDesign:Card Grid.Column="0" Grid.Row="1"
                                          materialDesign:ShadowAssist.ShadowDepth="Depth3"          
-                             Margin="5,2,5,5">
+                             Margin="5,5,5,5"
+                                         Background="#4CFFFFFF"
+                                         >
                         <StackPanel>
-                            <Expander Header="查看简介" HorizontalAlignment="Stretch">
+                            <Expander Header="查看简介" HorizontalAlignment="Stretch" Background="#4CFFFFFF">
                                 <StackPanel Orientation="Vertical" Margin="10,8,25,10" >
                                     <ListView Opacity=".68">
                                         <ListViewItem Content="   比特率" x:Name="ListViewItemBit"></ListViewItem>
@@ -498,7 +513,7 @@
                                             Click="BtnSaveInfo_Click"/>
                                 </StackPanel>
                             </Expander>
-                            <Expander Header="歌词">
+                            <Expander Header="歌词" Background="#4CFFFFFF">
                                 <Grid Margin="2" MinHeight="300">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -541,4 +556,4 @@
             </ScrollViewer>
         </Grid>
     </Grid>
-</Window>
+</fw:AcrylicWindow>
