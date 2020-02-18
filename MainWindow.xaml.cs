@@ -14,15 +14,22 @@ using Un4seen.Bass.Misc;
 using System.Windows.Media;
 using System.Drawing;
 using System.Windows;
+using HappyMaster.ViewModel;
+using System.Collections.ObjectModel;
 
 namespace FramelessWPF
 {
     public partial class MainWindow
     {
+       MainViewModel viewModel = new MainViewModel();
         public MainWindow()
         {
             InitializeComponent();
+            
+            viewModel.Query();
+            DataContext = viewModel;
         }
+
 
         private System.Windows.Threading.DispatcherTimer _maintimer = null;
         private System.Windows.Threading.DispatcherTimer _lyrictimer = null;
@@ -177,6 +184,8 @@ namespace FramelessWPF
                             MainProgressBar.Maximum = (int)Bass.BASS_ChannelBytes2Seconds(_stream, Bass.BASS_ChannelGetLength(_stream));
                             _maintimer.Start();
                             iconPlay.Kind= MaterialDesignThemes.Wpf.PackIconKind.Pause;
+                            //
+                            
                         }
                     }
                     break;
@@ -238,13 +247,7 @@ namespace FramelessWPF
             TAG_INFO info = new TAG_INFO(m_filename);
             if (BassTags.BASS_TAG_GetFromFile(_stream, info))
             {
-                var tfile = TagLib.File.Create(m_filename);
-                LabelTitle.Content = tfile.Tag.Title;
-                LabelArtist.Content = info.artist;
-                LabelTitleForCard.Text = info.title;
-                LabelAlbumForCard.Text = info.album;
-                // ImageAlbumArt.Source = info.PictureGetImage(0);
-                // LabelTitle.Content = info.title;
+                LabelTitle.Content = info.title;
                 LabelArtist.Content = info.artist;
                 LabelTitleForCard.Text = info.title;
                 LabelAlbumForCard.Text = info.album;
@@ -264,29 +267,57 @@ namespace FramelessWPF
                 n_rating.Append(blankspace);
                 n_rating.Append("44.100");
                 ListViewItemRate.Content = n_rating;
-                FileInfo _fileinfo = new FileInfo(info.filename);
-                System.Text.StringBuilder n_writetime = new System.Text.StringBuilder();
-                n_writetime.Append("修改时间");
-                n_writetime.Append(blankspace);
-                n_writetime.Append(_fileinfo.CreationTime);
-                ListViewItemWriteTime.Content = n_writetime;
-                System.Text.StringBuilder n_addtime = new System.Text.StringBuilder();
-                n_addtime.Append("添加时间");
-                n_addtime.Append(blankspace);
-                n_addtime.Append(_fileinfo.LastWriteTime);
-                ListViewItemAddTime.Content = n_addtime;
-                System.Text.StringBuilder n_filesize = new System.Text.StringBuilder();
-                string _filesize = _fileinfo.Length / 1024 / 1024 + "." + Math.Round((double)(_fileinfo.Length / 1024 % 1024 / 10), 2) + "MB";
-                n_filesize.Append("文件大小");
-                n_filesize.Append(blankspace);
-                n_filesize.Append(_filesize);
-                ListViewItemFileSize.Content = n_filesize;
-                System.Text.StringBuilder n_filepath = new System.Text.StringBuilder();
-                n_filepath.Append("文件位置");
-                n_filepath.Append(blankspace);
-                n_filepath.Append(_fileinfo.DirectoryName);
-                ListViewItemFilePath.Content = n_filepath;
+                List<HappyMaster.Model.PlayList> list = new List<HappyMaster.Model.PlayList>();
+                
+                //viewModel.Add_One_Record(List<HappyMaster.Model.PlayList> list);
             }
+            else
+            {
+                var tfile = TagLib.File.Create(m_filename);
+                LabelTitle.Content = tfile.Tag.Title;
+                LabelArtist.Content = tfile.Tag.Performers[0];
+                LabelTitleForCard.Text = tfile.Tag.Title;
+                LabelAlbumForCard.Text = tfile.Tag.Album;
+                System.Text.StringBuilder albumtext = new System.Text.StringBuilder();
+                albumtext.Append(tfile.Tag.Performers[0]);
+                albumtext.Append(" ");
+                albumtext.Append(tfile.Tag.Year);
+                LabelArtistForCard.Text = tfile.Tag.Performers[0];
+                albumtext.Remove(0, albumtext.Length);
+                albumtext.Append("   比特率");
+                albumtext.Append(blankspace);
+                albumtext.Append(tfile.Properties.AudioBitrate);
+                albumtext.Append("kbps");
+                ListViewItemBit.Content = albumtext;
+                System.Text.StringBuilder n_rating = new System.Text.StringBuilder();
+                n_rating.Append("   采样率");
+                n_rating.Append(blankspace);
+                n_rating.Append(String.Format("{0:##,###}", tfile.Properties.AudioSampleRate));
+                ListViewItemRate.Content = n_rating;
+
+            }
+            FileInfo _fileinfo = new FileInfo(info.filename);
+            System.Text.StringBuilder n_writetime = new System.Text.StringBuilder();
+            n_writetime.Append("修改时间");
+            n_writetime.Append(blankspace);
+            n_writetime.Append(_fileinfo.CreationTime);
+            ListViewItemWriteTime.Content = n_writetime;
+            System.Text.StringBuilder n_addtime = new System.Text.StringBuilder();
+            n_addtime.Append("添加时间");
+            n_addtime.Append(blankspace);
+            n_addtime.Append(_fileinfo.LastWriteTime);
+            ListViewItemAddTime.Content = n_addtime;
+            System.Text.StringBuilder n_filesize = new System.Text.StringBuilder();
+            string _filesize = _fileinfo.Length / 1024 / 1024 + "." + Math.Round((double)(_fileinfo.Length / 1024 % 1024 / 10), 2) + "MB";
+            n_filesize.Append("文件大小");
+            n_filesize.Append(blankspace);
+            n_filesize.Append(_filesize);
+            ListViewItemFileSize.Content = n_filesize;
+            System.Text.StringBuilder n_filepath = new System.Text.StringBuilder();
+            n_filepath.Append("文件位置");
+            n_filepath.Append(blankspace);
+            n_filepath.Append(_fileinfo.DirectoryName);
+            ListViewItemFilePath.Content = n_filepath;
         }
         private void MenuItem_OpenFile_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -294,7 +325,7 @@ namespace FramelessWPF
             {
                 //dialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 Title = "打开音频文件",
-                Filter = "音乐文件 (*.mp3)|*.mp3*|所有文件 (*.*)|*.*",
+                //Filter = "音乐文件 (*.mp3)|*.mp3*|所有文件 (*.*)|*.*",
                 RestoreDirectory = true
             };
             if (_openfile.ShowDialog() == true) 
@@ -780,6 +811,27 @@ namespace FramelessWPF
                 this.DragMove();
             }
         }
+        int i = 0;
+        private void MainMenu_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            i += 1;
+            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
+            timer.Tick += (s, e1) => { timer.IsEnabled = false; i = 0; };
+            timer.IsEnabled = true;
+
+            if (i % 2 == 0)
+            {
+                timer.IsEnabled = false;
+                i = 0;
+                this.WindowState = this.WindowState == WindowState.Maximized ?
+                              WindowState.Normal : WindowState.Maximized;
+            }
+        }
+
+
+
+
 
         /*
 private Visuals _vis = new Visuals(); // visuals class instance

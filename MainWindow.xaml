@@ -154,9 +154,11 @@
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
-            <Menu x:Name="MainMenu" Grid.Row="0" Height="25" Background="#7FFFFFFF" VerticalAlignment="Top" MouseMove="MainMenu_MouseMove" Grid.ColumnSpan="2">
+            <Menu x:Name="MainMenu" Grid.Row="0" Height="25" Background="#7FFFFFFF" VerticalAlignment="Top" Grid.ColumnSpan="2" MouseMove="MainMenu_MouseMove" MouseDown="MainMenu_MouseDown">
                 <MenuItem Header="文件" Height="25">
-                    <MenuItem x:Name="MenuItem_OpenFile" Header="打开" Click="MenuItem_OpenFile_Click" InputGestureText="Ctrl+O"/>
+                    <MenuItem x:Name="MenuItem_OpenFile" Header="打开" Click="MenuItem_OpenFile_Click" InputGestureText="Ctrl+O" 
+                              CommandParameter="{Binding FileName}"
+                              Command="{Binding AddCommand}"/>
                     <MenuItem x:Name="MenuItem_OpenCD" Header="打开CD" Click="MenuItem_OpenCD_Click"/>
                     <MenuItem x:Name="MenuItem_AddFile" Header="添加文件" InputGestureText="Ctrl+A"/>
                     <MenuItem x:Name="MenuItem_AddFloder" Header="添加文件夹" InputGestureText="Ctrl+Shift+A"/>
@@ -224,7 +226,7 @@
                         </Button>
                     </Grid>
                     <Grid Grid.Column="1" Margin="0,0,0,10">
-                        <Button x:Name="BtnchangeVolume" Style="{StaticResource MaterialDesignFlatButton}" Click="BtnchangeVolume_Click" Height="Auto" Margin="0,10,0,14" HorizontalAlignment="Left" Panel.ZIndex="1">
+                        <Button x:Name="BtnchangeVolume" Style="{StaticResource MaterialDesignFlatButton}" Click="BtnchangeVolume_Click" Height="Auto" Margin="0,10,0,22" HorizontalAlignment="Left" Padding="0,5,0,9" Panel.ZIndex="1" Width="50">
                             <materialDesign:PackIcon x:Name="packicon_volumestate" Kind="VolumeHigh" Foreground="#FF2687FB" />
                         </Button>
                         <Button Height="42" Width="60" Style="{StaticResource MaterialDesignFlatButton}" Margin="50,10,5,14">
@@ -403,12 +405,13 @@
                                          Padding="0" Margin="5,5,5,0"
                                          Background="#4CFFFFFF"
                                          >
+                        <!--播放列表-->
                         <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition MinHeight="540"/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
+                            <!--标题-->
                             <Grid Grid.Row="0" MinWidth="220" MinHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="70"/>
@@ -432,13 +435,17 @@
                                     文件
                                 </Button>
                             </Grid>
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding Items3}" Background="#33FFFFFF"
+                            <!--展示-->
+                            <DataGrid
+                                Grid.Row="1" Background="#33FFFFFF"
                                       CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="True"
                       materialDesign:DataGridAssist.CellPadding="0 0 0 0" 
                                       materialDesign:DataGridAssist.ColumnHeaderPadding="5" 
                                       VerticalAlignment="Top" 
                                       IsSynchronizedWithCurrentItem="True"
-                                       MaxHeight="40" MinHeight="40">
+                                       MaxHeight="40" MinHeight="40"
+                                      ItemsSource="{Binding GridModelList}"
+                                      >
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Binding="{Binding IsSelected}" 
                                             ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
@@ -452,18 +459,18 @@
                                             </Border>
                                         </DataGridCheckBoxColumn.Header>
                                     </DataGridCheckBoxColumn>
-                                    <DataGridTextColumn Binding="{Binding Code}"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Title}"
                                         Header="名称"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" Width="3*"/>
-                                    <materialDesign:DataGridTextColumn Binding="{Binding Name}" Width="2*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Artist}" Width="2*"
                                                                Header="艺人"                                                        
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                                                />
-                                    <materialDesign:DataGridTextColumn Binding="{Binding Description}" Width="3*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Album}" Width="3*"
                                                                Header="专辑"                                                        
                                                                MaxLength="255" 
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
-                                    <materialDesign:DataGridTextColumn Binding="{Binding Numeric}" Width="2*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding TotalTime}" Width="2*"
                                                         Header="时长"                                                         
                                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
                                         <materialDesign:DataGridTextColumn.HeaderStyle>
@@ -479,13 +486,7 @@
                                     </materialDesign:DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <DataGrid Grid.Row="2" ItemsSource="{Binding Items3}"  Background="#19FFFFFF"
-                                       CanUserSortColumns="True" 
-                                      CanUserAddRows="False"
-                       materialDesign:DataGridAssist.CellPadding="4 2 2 2" 
-                                       materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
-                                       
-                       />
+                            
                         </Grid>
                     </materialDesign:Card>
                     <materialDesign:Card Grid.Column="0" Grid.Row="1"
@@ -526,10 +527,10 @@
                                          ToolTip="关于歌词操作更多" Background="#FF2687FB" BorderBrush="#FF2387FF" Panel.ZIndex="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,10"
                                          >
                                         <StackPanel>
-                                            <Button x:Name="BtnOpenLyricEX" Background="#FF2687FB" BorderBrush="#FF2387FF" Opacity="0.7" Click="BtnOpenLyricEX_Click" ToolTip="打开歌词">
+                                            <Button x:Name="BtnOpenLyricEX"  BorderBrush="#FF2387FF" Opacity="0.7" Click="BtnOpenLyricEX_Click" ToolTip="打开歌词">
                                                 <materialDesign:PackIcon Kind="File" />
                                             </Button>
-                                            <Button x:Name="BtnSearchLyric" Background="#FF2687FB" BorderBrush="#FF2387FF" Opacity="0.6" Click="BtnOpenLyricEX_Click" ToolTip="在线搜索歌词">
+                                            <Button x:Name="BtnSearchLyric" BorderBrush="#FF2387FF" Opacity="0.6" Click="BtnOpenLyricEX_Click" ToolTip="在线搜索歌词">
                                                 <materialDesign:PackIcon Kind="Magnify" />
                                             </Button>
                                         </StackPanel>
