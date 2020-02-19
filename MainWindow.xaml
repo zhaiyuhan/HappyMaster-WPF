@@ -244,13 +244,42 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <materialDesign:Card Grid.Column="0" x:Name="ImageAlbumArtBG" 
-                        materialDesign:ShadowAssist.ShadowDepth="Depth2" 
-                        Width="45" Height="45"
-                        MouseEnter="ImageAlbumArtBG_MouseEnter" MouseLeave="ImageAlbumArtBG_MouseLeave" 
+                            <StackPanel x:Name="StackPanel" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <AdornerDecorator>
+                                    <materialDesign:Card   x:Name="ImageAlbumArtBG" 
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        Width="45" Height="45" Margin="5,10,5,5" 
                         HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Image x:Name="ImageAlbumArt" Stretch="UniformToFill" Margin="0"/>
-                            </materialDesign:Card>
+                                        <materialDesign:Card.Effect>
+                                            <!--A copy of MaterialDesignShadowDepth1-->
+                                            <DropShadowEffect x:Name="DropShadowEffect" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42" RenderingBias="Performance" />
+                                        </materialDesign:Card.Effect>
+
+                                        <materialDesign:Card.Triggers>
+                                            <!--Values taken from MaterialDesignShadowDepth4 -->
+                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard TargetName="DropShadowEffect">
+                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="10" Duration="0:0:0.5" />
+                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <!--Values taken from MaterialDesignShadowDepth1 -->
+                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard TargetName="DropShadowEffect">
+                                                        <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
+                                                        <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </materialDesign:Card.Triggers>
+                                        <Image x:Name="ImageAlbumArt" Stretch="UniformToFill" Margin="0"/>
+                                    </materialDesign:Card>
+                                </AdornerDecorator>
+                            </StackPanel>
+
                             <Grid MinWidth="300" Grid.ColumnSpan="2" Margin="70,0,10,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="3*"/>
@@ -380,7 +409,13 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Image x:Name="ImageAlbumArtBig" Grid.Column="0" Height="200" Width="200" Stretch="UniformToFill" Margin="-1,0,0,0" MouseLeftButtonDown="ImageAlbumArtBig_MouseLeftButtonDown"/>
+                            <Image x:Name="ImageAlbumArtBig" Grid.Column="0" Height="200" Width="200" Stretch="UniformToFill" Margin="-1,0,0,0"  Opacity="0" MouseLeftButtonDown="ImageAlbumArtBig_MouseLeftButtonDown">
+                                <Image.RenderTransform>
+                                    <TranslateTransform>
+                                    </TranslateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -436,15 +471,14 @@
                                 </Button>
                             </Grid>
                             <!--展示-->
-                            <DataGrid
+                            <DataGrid x:Name="tb1"
                                 Grid.Row="1" Background="#33FFFFFF"
                                       CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="True"
                       materialDesign:DataGridAssist.CellPadding="0 0 0 0" 
                                       materialDesign:DataGridAssist.ColumnHeaderPadding="5" 
                                       VerticalAlignment="Top" 
                                       IsSynchronizedWithCurrentItem="True"
-                                       MaxHeight="40" MinHeight="40"
-                                      ItemsSource="{Binding GridModelList}"
+                                       MaxHeight="40" MinHeight="40" Height="597"
                                       >
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Binding="{Binding IsSelected}" 
@@ -459,14 +493,14 @@
                                             </Border>
                                         </DataGridCheckBoxColumn.Header>
                                     </DataGridCheckBoxColumn>
-                                    <materialDesign:DataGridTextColumn Binding="{Binding Title}"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding TITLE}"
                                         Header="名称"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" Width="3*"/>
-                                    <materialDesign:DataGridTextColumn Binding="{Binding Artist}" Width="2*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding ARTIST}" Width="2*"
                                                                Header="艺人"                                                        
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                                                />
-                                    <materialDesign:DataGridTextColumn Binding="{Binding Album}" Width="3*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding ALBUM}" Width="3*"
                                                                Header="专辑"                                                        
                                                                MaxLength="255" 
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
@@ -486,8 +520,9 @@
                                     </materialDesign:DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            
+
                         </Grid>
+                        
                     </materialDesign:Card>
                     <materialDesign:Card Grid.Column="0" Grid.Row="1"
                                          materialDesign:ShadowAssist.ShadowDepth="Depth3"          

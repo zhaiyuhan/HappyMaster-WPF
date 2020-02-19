@@ -115,14 +115,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HappyMaster.exe" size="164872">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HappyMaster.exe" size="166920">
       <assemblyIdentity name="HappyMaster" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bG7CURaN8728zFn5POp7CRON0GEQ90552McziMtMzjk=</dsig:DigestValue>
+        <dsig:DigestValue>STN35bqsFhMnGpB/1iYWZe8q1O39nie85aeAfefducs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

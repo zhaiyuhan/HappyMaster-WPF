@@ -16,18 +16,36 @@ using System.Drawing;
 using System.Windows;
 using HappyMaster.ViewModel;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 
 namespace FramelessWPF
 {
     public partial class MainWindow
     {
-       MainViewModel viewModel = new MainViewModel();
+        public class Customers
+        {
+            public string TITLE { get; set; }
+            public string ALBUM { get; set; }
+        }
+        List<Customers> list;
+        private readonly Storyboard _storyboard;
+
         public MainWindow()
         {
             InitializeComponent();
-            
-            viewModel.Query();
-            DataContext = viewModel;
+            list = new List<Customers>() { };
+            Storyboard sb = new Storyboard();
+            sb.FillBehavior = FillBehavior.HoldEnd;
+
+            var opacityAnimation = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(2000)));
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(nameof(ImageAlbumArtBig.Opacity)));
+            var translateAnimation = new DoubleAnimation(-100, 0, new Duration(TimeSpan.FromMilliseconds(300)));
+            Storyboard.SetTargetProperty(translateAnimation, new PropertyPath($"{nameof(ImageAlbumArtBig.RenderTransform)}.{nameof(TranslateTransform.X)}"));
+
+            sb.Children.Add(translateAnimation);
+            sb.Children.Add(opacityAnimation);
+
+            _storyboard = sb;
         }
 
 
@@ -101,6 +119,7 @@ namespace FramelessWPF
         }
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            tb1.ItemsSource = list;
             System.IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             
             BassNet.Registration("zhaiyuhanx@hotmail.com", "2X3931422312422");
@@ -230,6 +249,7 @@ namespace FramelessWPF
                             ImageAlbumArtBig.Source = albumImage2;
                             albumArtworkMemStream2.Close();
                         }
+                        _storyboard.Begin(ImageAlbumArtBig);
                     }
                     catch (NotSupportedException)
                     {
@@ -267,9 +287,10 @@ namespace FramelessWPF
                 n_rating.Append(blankspace);
                 n_rating.Append("44.100");
                 ListViewItemRate.Content = n_rating;
-                List<HappyMaster.Model.PlayList> list = new List<HappyMaster.Model.PlayList>();
-                
-                //viewModel.Add_One_Record(List<HappyMaster.Model.PlayList> list);
+                Customers lst = new Customers();
+                lst.TITLE = info.title;
+                lst.ALBUM = info.album;
+                list.Add(lst);
             }
             else
             {
@@ -456,7 +477,7 @@ namespace FramelessWPF
             }
          }
 
-        private void ImageAlbumArtBG_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        /*private void ImageAlbumArtBG_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             System.Windows.Media.ScaleTransform scaleTransform = new System.Windows.Media.ScaleTransform()
             {
@@ -476,7 +497,7 @@ namespace FramelessWPF
                 ScaleY = 1             
             };
             ImageAlbumArtBG.RenderTransform = scaleTransform;
-        }
+        }*/
 
         private void MenuItem_MaxView_Click(object sender, System.Windows.RoutedEventArgs e)
         {
