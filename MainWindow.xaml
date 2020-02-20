@@ -7,6 +7,7 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:shell="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+    xmlns:Model="clr-namespace:HappyMaster.Model"
     fw:AcrylicWindow.Enabled="True"
     fw:AcrylicWindowStyle="None"
     mc:Ignorable="d"
@@ -23,10 +24,22 @@
     WindowStyle="SingleBorderWindow" 
     BorderBrush="Transparent"
     >
+    <fw:AcrylicWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="Themes/DMTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </fw:AcrylicWindow.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="1" GlassFrameThickness="1" />
     </WindowChrome.WindowChrome>
-    <Window.TaskbarItemInfo>
+    <fw:AcrylicWindow.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="taskBarItemInfo1"                   
                      ThumbnailClipMargin="80,0,80,140"
                      Description="Taskbar Item Info Sample">
@@ -46,19 +59,7 @@
                 </ThumbButtonInfoCollection>
             </TaskbarItemInfo.ThumbButtonInfos>
         </TaskbarItemInfo>
-    </Window.TaskbarItemInfo>
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="Thems/DMTabControl.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+    </fw:AcrylicWindow.TaskbarItemInfo>
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -78,27 +79,25 @@
                                        >
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
-                        <TextBlock VerticalAlignment="Center">当前无播放流</TextBlock>
+                        <TextBlock VerticalAlignment="Center"><Run Text="当前无播放流"/></TextBlock>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsDefault="True"
                                         Margin="0 8 8 0"
                                         Command="materialDesign:DialogHost.CloseDialogCommand" 
-                                    Foreground="#FF2687FB">
+                                    Foreground="#FF2687FB" Content="添加流">
                                 <Button.CommandParameter>
                                     <system:Boolean>True</system:Boolean>
                                 </Button.CommandParameter>
-                                添加流
                             </Button>
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsCancel="True"
                                         Margin="0 8 8 0"
                                         Command="materialDesign:DialogHost.CloseDialogCommand"
-                                    Foreground="#FF2687FB">
+                                    Foreground="#FF2687FB" Content="取消">
                                 <Button.CommandParameter>
                                     <system:Boolean>False</system:Boolean>
                                 </Button.CommandParameter>
-                                取消
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -107,7 +106,7 @@
             <materialDesign:DialogHost x:Name="dig_Commander" DialogClosing="dig_Commander_DialogClosing" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="32,273,508,369" Grid.Row="2">
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
-                        <TextBlock VerticalAlignment="Center">命令行</TextBlock>
+                        <TextBlock VerticalAlignment="Center"><Run Text="命令行"/></TextBlock>
                         <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="TextBoxInputCommand" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
 
@@ -115,21 +114,19 @@
                                         IsDefault="True"
                                         Margin="0 8 8 0"
                                         Command="materialDesign:DialogHost.CloseDialogCommand" 
-                                    Foreground="#FF2687FB">
+                                    Foreground="#FF2687FB" Content="确定">
                                 <Button.CommandParameter>
                                     <system:Boolean>True</system:Boolean>
                                 </Button.CommandParameter>
-                                确定
                             </Button>
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsCancel="True"
                                         Margin="0 8 8 0"
                                         Command="materialDesign:DialogHost.CloseDialogCommand"
-                                    Foreground="#FF2687FB">
+                                    Foreground="#FF2687FB" Content="取消">
                                 <Button.CommandParameter>
                                     <system:Boolean>False</system:Boolean>
                                 </Button.CommandParameter>
-                                取消
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -138,17 +135,16 @@
             <materialDesign:DialogHost x:Name="dig_Error" DialogClosing="Dig_Error_DialogClosing"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="32,273,508,369" Grid.Row="2">
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
-                        <TextBlock VerticalAlignment="Center">请输入正确命令</TextBlock>
+                        <TextBlock VerticalAlignment="Center"><Run Text="请输入正确命令"/></TextBlock>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                     VerticalAlignment="Center" HorizontalAlignment="Center"
                                         IsDefault="True"                                      
                                         Command="materialDesign:DialogHost.CloseDialogCommand" 
-                                    Foreground="#FF2687FB" Margin="8,0,15,0">
+                                    Foreground="#FF2687FB" Margin="8,0,15,0" Content="确定">
                                 <Button.CommandParameter>
                                     <system:Boolean>True</system:Boolean>
                                 </Button.CommandParameter>
-                                确定
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -257,18 +253,18 @@
 
                                         <materialDesign:Card.Triggers>
                                             <!--Values taken from MaterialDesignShadowDepth4 -->
-                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
                                                 <BeginStoryboard>
-                                                    <Storyboard TargetName="DropShadowEffect">
+                                                    <Storyboard Storyboard.TargetName="DropShadowEffect">
                                                         <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="10" Duration="0:0:0.5" />
                                                         <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="8" Duration="0:0:0.5" />
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>
                                             <!--Values taken from MaterialDesignShadowDepth1 -->
-                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
                                                 <BeginStoryboard>
-                                                    <Storyboard TargetName="DropShadowEffect">
+                                                    <Storyboard Storyboard.TargetName="DropShadowEffect">
                                                         <DoubleAnimation Storyboard.TargetProperty="BlurRadius" To="5" Duration="0:0:0.5" />
                                                         <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" To="1" Duration="0:0:0.5" />
                                                     </Storyboard>
@@ -292,27 +288,26 @@
                                     <Label x:Name="LabelLeftTime" Content="" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                     <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="20">
                                         <Viewbox Stretch="UniformToFill" Height="20" Width="20">
-                                            <Canvas Name="svg3692" Width="20" Height="20">
+                                            <Canvas x:Name="svg3692" Width="20" Height="20">
                                                 <Canvas.RenderTransform>
                                                     <TranslateTransform X="0" Y="0"/>
                                                 </Canvas.RenderTransform>
-                                                <Canvas.Resources/>
-                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3684" Fill="#FF2687FB">
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" x:Name="path3684" Fill="#FF2687FB">
                                                     <Path.Data>
                                                         <PathGeometry Figures="M815.045407 826.541813c-18.198218-20.869307-76.860685-88.349187-110.542175-127.250172l68.990106 0L773.493338 185.452759l84.138744 0 0 513.839905 67.838838 0C892.265287 737.579665 834.40001 804.258297 815.045407 826.541813z" FillRule="NonZero"/>
                                                     </Path.Data>
                                                 </Path>
-                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3686" Fill="#FF2687FB">
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" x:Name="path3686" Fill="#FF2687FB">
                                                     <Path.Data>
                                                         <PathGeometry Figures="M64.491463 689.618327l483.5468 0 0 58.014298-483.5468 0 0-58.014298Z" FillRule="NonZero"/>
                                                     </Path.Data>
                                                 </Path>
-                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3688" Fill="#FF2687FB">
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" x:Name="path3688" Fill="#FF2687FB">
                                                     <Path.Data>
                                                         <PathGeometry Figures="M64.491463 456.056873l576.145571 0 0 58.014298-576.145571 0 0-58.014298Z" FillRule="NonZero"/>
                                                     </Path.Data>
                                                 </Path>
-                                                <Path Stretch="UniformToFill" Width="20" Height="20" Name="path3690" Fill="#FF2687FB">
+                                                <Path Stretch="UniformToFill" Width="20" Height="20" x:Name="path3690" Fill="#FF2687FB">
                                                     <Path.Data>
                                                         <PathGeometry Figures="M64.491463 222.490304l576.145571 0 0 58.014298-576.145571 0 0-58.014298Z" FillRule="NonZero"/>
                                                     </Path.Data>
@@ -375,28 +370,28 @@
                                 <TabItem Header="接着播放" Style="{DynamicResource DMTopTabItemLeft}">
                                     <ScrollViewer>
                                         <ListBox>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
                                         </ListBox>
                                     </ScrollViewer>
                                 </TabItem>
                                 <TabItem Header="历史记录" Style="{DynamicResource DMTopTabItemRight}">
                                     <ScrollViewer>
                                         <ListBox>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
-                                            <ListBoxItem>A</ListBoxItem>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
+                                            <ListBoxItem Content="A"/>
                                         </ListBox>
                                     </ScrollViewer>
                                 </TabItem>
@@ -411,8 +406,7 @@
                             </Grid.ColumnDefinitions>
                             <Image x:Name="ImageAlbumArtBig" Grid.Column="0" Height="200" Width="200" Stretch="UniformToFill" Margin="-1,0,0,0"  Opacity="0" MouseLeftButtonDown="ImageAlbumArtBig_MouseLeftButtonDown">
                                 <Image.RenderTransform>
-                                    <TranslateTransform>
-                                    </TranslateTransform>
+                                    <TranslateTransform/>
                                 </Image.RenderTransform>
                             </Image>
 
@@ -454,31 +448,26 @@
                                     <ColumnDefinition Width="50"/>
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Style="{StaticResource TabButton}" BorderBrush="{x:Null}" Grid.Column="0" Foreground="White" Background="#FF2687FB" Margin="2,0" Height="30">
-                                    资料库
-                                </Button>
+                                <Button Style="{StaticResource TabButton}" BorderBrush="{x:Null}" Grid.Column="0" Foreground="White" Background="#FF2687FB" Margin="2,0" Height="30" Content="资料库"/>
                                 <Button Style="{StaticResource TabButton}" BorderBrush="{x:Null}" Background="{x:Null}" 
-                                    Grid.Column="1" Foreground="#FF767676" Margin="2,0" Height="30">
-                                    艺人
-                                </Button>
+                                    Grid.Column="1" Foreground="#FF767676" Margin="2,0" Height="30" Content="艺人"/>
                                 <Button Style="{StaticResource TabButton}" BorderBrush="{x:Null}" Background="{x:Null}"
-                                    Grid.Column="2" Foreground="#FF767676" Margin="2,0" Height="30">
-                                    专辑
-                                </Button>
+                                    Grid.Column="2" Foreground="#FF767676" Margin="2,0" Height="30" Content="专辑"/>
                                 <Button Style="{StaticResource TabButton}" BorderBrush="{x:Null}" Background="{x:Null}"
-                                    Grid.Column="3" Foreground="#FF767676" Margin="2,0" Height="30">
-                                    文件
-                                </Button>
+                                    Grid.Column="3" Foreground="#FF767676" Margin="2,0" Height="30" Content="文件"/>
                             </Grid>
                             <!--展示-->
                             <DataGrid x:Name="tb1"
                                 Grid.Row="1" Background="#33FFFFFF"
-                                      CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="True"
-                      materialDesign:DataGridAssist.CellPadding="0 0 0 0" 
+                                     
+                                      CanUserAddRows="False" 
+                                      AutoGenerateColumns="True"
+                                      materialDesign:DataGridAssist.CellPadding="0 0 0 0" 
                                       materialDesign:DataGridAssist.ColumnHeaderPadding="5" 
                                       VerticalAlignment="Top" 
                                       IsSynchronizedWithCurrentItem="True"
-                                       MaxHeight="40" MinHeight="40" Height="597"
+                                       MinHeight="40" Height="597"
+                                     
                                       >
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Binding="{Binding IsSelected}" 
@@ -493,14 +482,14 @@
                                             </Border>
                                         </DataGridCheckBoxColumn.Header>
                                     </DataGridCheckBoxColumn>
-                                    <materialDesign:DataGridTextColumn Binding="{Binding TITLE}"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Title}"
                                         Header="名称"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" Width="3*"/>
-                                    <materialDesign:DataGridTextColumn Binding="{Binding ARTIST}" Width="2*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Artist}" Width="2*"
                                                                Header="艺人"                                                        
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                                                />
-                                    <materialDesign:DataGridTextColumn Binding="{Binding ALBUM}" Width="3*"
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Album}" Width="3*"
                                                                Header="专辑"                                                        
                                                                MaxLength="255" 
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
@@ -522,7 +511,7 @@
                             </DataGrid>
 
                         </Grid>
-                        
+
                     </materialDesign:Card>
                     <materialDesign:Card Grid.Column="0" Grid.Row="1"
                                          materialDesign:ShadowAssist.ShadowDepth="Depth3"          
@@ -533,12 +522,12 @@
                             <Expander Header="查看简介" HorizontalAlignment="Stretch" Background="#4CFFFFFF">
                                 <StackPanel Orientation="Vertical" Margin="10,8,25,10" >
                                     <ListView Opacity=".68">
-                                        <ListViewItem Content="   比特率" x:Name="ListViewItemBit"></ListViewItem>
-                                        <ListViewItem Content="   采样率" x:Name="ListViewItemRate"></ListViewItem>
-                                        <ListViewItem Content="修改时间" x:Name="ListViewItemWriteTime" Margin="0,5,0,0"></ListViewItem>
-                                        <ListViewItem Content="添加时间" x:Name="ListViewItemAddTime"></ListViewItem>
-                                        <ListViewItem Content="文件大小" x:Name="ListViewItemFileSize" Margin="0,5,0,0"></ListViewItem>
-                                        <ListViewItem Content="文件位置" x:Name="ListViewItemFilePath"></ListViewItem>
+                                        <ListViewItem Content="   比特率" x:Name="ListViewItemBit"/>
+                                        <ListViewItem Content="   采样率" x:Name="ListViewItemRate"/>
+                                        <ListViewItem Content="修改时间" x:Name="ListViewItemWriteTime" Margin="0,5,0,0"/>
+                                        <ListViewItem Content="添加时间" x:Name="ListViewItemAddTime"/>
+                                        <ListViewItem Content="文件大小" x:Name="ListViewItemFileSize" Margin="0,5,0,0"/>
+                                        <ListViewItem Content="文件位置" x:Name="ListViewItemFilePath"/>
                                     </ListView>
                                     <Button x:Name="BtnSaveInfo" 
                                             Content="拷贝信息至" 
@@ -570,9 +559,9 @@
                                             </Button>
                                         </StackPanel>
                                     </materialDesign:PopupBox>
-                                    <StackPanel Margin="28,0,20,208" Grid.Row="0" Name="BaseLineSP">
-                                        <Line Stroke="Black" StrokeThickness="2" StrokeDashArray="4,2" X1="0" X2="{Binding ElementName=CanvasLyric, Path=ActualWidth}" Y2="0" Name="BaseLine" Visibility="Collapsed" Fill="{x:Null}" OpacityMask="{x:Null}" Y1="0" Grid.ColumnSpan="2" Height="4" />
-                                        <TextBlock Name="tbDragTime" Text="0.00.00" TextAlignment="Left" Foreground="Black" FontSize="14" Visibility="Collapsed" Width="{Binding ElementName=CanvasLyric, Path=ActualWidth}" />
+                                    <StackPanel Margin="28,0,20,208" Grid.Row="0" x:Name="BaseLineSP">
+                                        <Line Stroke="Black" StrokeThickness="2" StrokeDashArray="4,2" X1="0" X2="{Binding ActualWidth, ElementName=CanvasLyric}" Y2="0" x:Name="BaseLine" Visibility="Collapsed" Fill="{x:Null}" OpacityMask="{x:Null}" Y1="0" Grid.ColumnSpan="2" Height="4" />
+                                        <TextBlock x:Name="tbDragTime" Text="0.00.00" TextAlignment="Left" Foreground="Black" FontSize="14" Visibility="Collapsed" Width="{Binding ActualWidth, ElementName=CanvasLyric}" />
                                     </StackPanel>
                                     <Canvas Margin="10,10,10,10" x:Name="CanvasLyric" ClipToBounds="True" Background="White" Grid.RowSpan="2">
                                         <StackPanel x:Name="StackPanelCommonLyric"  Canvas.Left="0" Canvas.Top="300" Width="{Binding ActualWidth, ElementName=CanvasLyric, Mode=OneWay}" OpacityMask="Black" />

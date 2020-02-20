@@ -13,28 +13,28 @@ namespace HappyMaster.Db
         {
 
         }
-        private List<PlayList> PlayLists;
+        private List<PlayListModel> PlayLists;
 
         private void Init()
         {
-            PlayLists = new List<PlayList>();
+            PlayLists = new List<PlayListModel>();
         }
-        public List<PlayList> GetMusics()
+        public List<PlayListModel> GetMusics()
         {
             return PlayLists;
         }
 
 
-        public void AddRecord(PlayList pl)
+        public void AddRecord(PlayListModel pl)
         {
             PlayLists.Add(pl);
         }
-        public List<PlayList> SearchMusic(string music_name)
+        public List<PlayListModel> SearchMusic(string music_name)
         {
             return PlayLists.Where(q => q.Title.Contains(music_name)).ToList();
         }
 
-        public PlayList GetByFileName(string _filename)
+        public PlayListModel GetByFileName(string _filename)
         {
             return PlayLists.FirstOrDefault(t => t.FileName == _filename);
         }

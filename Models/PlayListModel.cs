@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HappyMaster.Model
 {
-    public class PlayList : ViewModelBase
+    public class PlayListModel : ViewModelBase
     {
         private string filename;
         private string title;
@@ -20,7 +20,7 @@ namespace HappyMaster.Model
             set
             {
                 filename = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("FileName");
             }
         }
         public string Title
@@ -29,7 +29,7 @@ namespace HappyMaster.Model
             set
             {
                 title = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("Title");
             }
         }
         public string Album
@@ -37,8 +37,8 @@ namespace HappyMaster.Model
             get { return album; }
             set
             {
-                title = value;
-                RaisePropertyChanged();
+                album = value;
+                RaisePropertyChanged("Album");
             }
         }
         public string Artist
@@ -46,8 +46,8 @@ namespace HappyMaster.Model
             get { return artist; }
             set
             {
-                title = value;
-                RaisePropertyChanged();
+                artist = value;
+                RaisePropertyChanged("Artist");
             }
         }
         public string TotalTime
@@ -55,8 +55,8 @@ namespace HappyMaster.Model
             get { return totaltime; }
             set
             {
-                title = value;
-                RaisePropertyChanged();
+                totaltime = value;
+                RaisePropertyChanged("TotalTime");
             }
         }
 

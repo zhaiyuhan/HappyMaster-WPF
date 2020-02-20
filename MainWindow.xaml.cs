@@ -22,18 +22,12 @@ namespace FramelessWPF
 {
     public partial class MainWindow
     {
-        public class Customers
-        {
-            public string TITLE { get; set; }
-            public string ALBUM { get; set; }
-        }
-        List<Customers> list;
+        
         private readonly Storyboard _storyboard;
 
         public MainWindow()
         {
             InitializeComponent();
-            list = new List<Customers>() { };
             Storyboard sb = new Storyboard();
             sb.FillBehavior = FillBehavior.HoldEnd;
 
@@ -119,7 +113,7 @@ namespace FramelessWPF
         }
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            tb1.ItemsSource = list;
+
             System.IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             
             BassNet.Registration("zhaiyuhanx@hotmail.com", "2X3931422312422");
@@ -218,7 +212,14 @@ namespace FramelessWPF
                     break;
             }
         }
-        
+
+        public class PlayList
+        {
+            public string Title { get; set; }
+            public string Album { get; set; }
+            public string Artist { get; set; }
+            public string TotalTime { get; set; }
+        }
         private void GetTagInformation(String m_filename)
         {
             //get information
@@ -287,10 +288,7 @@ namespace FramelessWPF
                 n_rating.Append(blankspace);
                 n_rating.Append("44.100");
                 ListViewItemRate.Content = n_rating;
-                Customers lst = new Customers();
-                lst.TITLE = info.title;
-                lst.ALBUM = info.album;
-                list.Add(lst);
+                
             }
             else
             {
@@ -315,8 +313,14 @@ namespace FramelessWPF
                 n_rating.Append(blankspace);
                 n_rating.Append(String.Format("{0:##,###}", tfile.Properties.AudioSampleRate));
                 ListViewItemRate.Content = n_rating;
-
+                PlayList memberData = new PlayList();
+                memberData.Title = tfile.Tag.Title;
+                memberData.Artist = tfile.Tag.Performers[0];
+                memberData.Album = tfile.Tag.Album;
+     
+                this.tb1.Items.Add(memberData); 
             }
+        
             FileInfo _fileinfo = new FileInfo(info.filename);
             System.Text.StringBuilder n_writetime = new System.Text.StringBuilder();
             n_writetime.Append("修改时间");

@@ -36,13 +36,8 @@ D:\Project\HappyMaster-WPF\bin\x86\Debug\MaterialDesignThemes.Wpf.pdb
 D:\Project\HappyMaster-WPF\bin\x86\Debug\MaterialDesignThemes.Wpf.xml
 D:\Project\HappyMaster-WPF\obj\x86\Debug\CaptionButtons.baml
 D:\Project\HappyMaster-WPF\obj\x86\Debug\MainWindow.baml
-D:\Project\HappyMaster-WPF\obj\x86\Debug\Thems\DMTabControl.baml
-D:\Project\HappyMaster-WPF\obj\x86\Debug\View\AboutView.baml
-D:\Project\HappyMaster-WPF\obj\x86\Debug\View\SettingsView.baml
 D:\Project\HappyMaster-WPF\obj\x86\Debug\CaptionButtons.g.cs
 D:\Project\HappyMaster-WPF\obj\x86\Debug\MainWindow.g.cs
-D:\Project\HappyMaster-WPF\obj\x86\Debug\View\AboutView.g.cs
-D:\Project\HappyMaster-WPF\obj\x86\Debug\View\SettingsView.g.cs
 D:\Project\HappyMaster-WPF\obj\x86\Debug\App.g.cs
 D:\Project\HappyMaster-WPF\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Project\HappyMaster-WPF\obj\x86\Debug\HappyMaster_MarkupCompile.cache
@@ -71,3 +66,8 @@ D:\Project\HappyMaster-WPF\bin\x86\Debug\GalaSoft.MvvmLight.Extras.pdb
 D:\Project\HappyMaster-WPF\bin\x86\Debug\GalaSoft.MvvmLight.Extras.xml
 D:\Project\HappyMaster-WPF\bin\x86\Debug\GalaSoft.MvvmLight.Platform.pdb
 D:\Project\HappyMaster-WPF\bin\x86\Debug\GalaSoft.MvvmLight.Platform.xml
+D:\Project\HappyMaster-WPF\obj\x86\Debug\Windows\AboutView.baml
+D:\Project\HappyMaster-WPF\obj\x86\Debug\Windows\SettingsView.baml
+D:\Project\HappyMaster-WPF\obj\x86\Debug\Windows\AboutView.g.cs
+D:\Project\HappyMaster-WPF\obj\x86\Debug\Windows\SettingsView.g.cs
+D:\Project\HappyMaster-WPF\obj\x86\Debug\Themes\DMTabControl.baml

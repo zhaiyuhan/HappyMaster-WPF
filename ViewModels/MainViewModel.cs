@@ -21,11 +21,11 @@ namespace HappyMaster.ViewModel
         }
         localDb localDb;
 
-        private ObservableCollection <PlayList> gridModelList;
-        private ObservableCollection<PlayList> GridModelList
+        private ObservableCollection <PlayListModel> gridModelList;
+        private ObservableCollection<PlayListModel> GridModelList
         {
             get { return gridModelList; }
-            set { gridModelList = value; RaisePropertyChanged(); }
+            set { gridModelList = value; RaisePropertyChanged("GridModelList"); }
         }
         #region Command
         public RelayCommand<string> AddCommand { get; }
@@ -34,7 +34,7 @@ namespace HappyMaster.ViewModel
         public void Query()
         {
             var models = localDb.GetMusics();
-            GridModelList = new ObservableCollection<PlayList>();
+            GridModelList = new ObservableCollection<PlayListModel>();
             if (models != null)
             {
                 models.ForEach(arg =>
@@ -46,7 +46,7 @@ namespace HappyMaster.ViewModel
 
         public void Add(string _filename)
         {
-          PlayList _PlayLists = new PlayList();
+          PlayListModel _PlayLists = new PlayListModel();
             _PlayLists.Title = _filename;
         GridModelList.Add(_PlayLists);
         }
